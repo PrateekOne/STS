@@ -1,123 +1,151 @@
 import java.util.*;
-class node{
+
+class Node {
     int data;
-    node left,right;
-    node(int d)
-    {
-        left=right=null;
-        data=d;
-    }
+    Node left, right;
+    Node(int d) { data = d; }
 }
-class BT{
-    node root=null;
-    node prev=null;
-    node f=null;
-    node m=null;
-    node l=null;
-    node create()
-    {
-        Scanner sc=new Scanner(System.in);
-        int r=sc.nextInt();
-        if(r==-1)
-        {
-            return null;
-        }
-        node newn=new node(r);
-        root=newn;
-        Queue<node> q=new LinkedList<>();
+
+class BT {
+    Node root, prev, f, m, l;
+
+    Node create() {
+        Scanner sc = new Scanner(System.in);
+        root = new Node(sc.nextInt());
+        Queue<Node> q = new LinkedList<>();
         q.add(root);
-        while(!q.isEmpty())
-        {
-            node curr=q.poll();
-            int l=sc.nextInt();
-            if(l!=-1)
-            {
-                node lnode=new node(l);
-                q.add(lnode);
-                curr.left=lnode;
-            }
-            int rn=sc.nextInt();
-            if(rn!=-1)
-            {
-                node rnode=new node(rn);
-                q.add(rnode);
-                curr.right=rnode;
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            for (int i = 0; i < 2; i++) {
+                int val = sc.nextInt();
+                if (val != -1) {
+                    Node newNode = new Node(val);
+                    if (i == 0) curr.left = newNode;
+                    else curr.right = newNode;
+                    q.add(newNode);
+                }
             }
         }
         return root;
     }
-    void recoverBST(node root)
-    {
-        if(root==null)
-        {
-            return;
-        }
+
+    void recoverBST(Node root) {
+        if (root == null) return;
         inorder(root);
-        if(f!=null && l!=null)
-        {
-            int temp=f.data;
-            f.data=l.data;
-            l.data=temp;
-        }
-        else if(f!=null && m!=null)
-        {
-            int temp=f.data;
-            f.data=m.data;
-            m.data=temp;
-        }
+        if (f != null) swap(f, (l != null) ? l : m);
     }
-    void inorder(node root)
-    {
-        if(root==null)
-        {
-            return;
-        }
+
+    void inorder(Node root) {
+        if (root == null) return;
         inorder(root.left);
-        if(prev!=null && prev.data>root.data)
-        {
-            if(f==null)
-            {
-                f=prev;
-                m=root;
-            }
-            else{
-                l=root;
-                }
+        if (prev != null && prev.data > root.data) {
+            if (f == null) f = prev; else l = root;
+            if (f != null && m == null) m = root;
         }
-        prev=root;
+        prev = root;
         inorder(root.right);
     }
-    void level(node root)
-    {
-        Queue<node> q=new LinkedList<>();
-        if(root==null)
-        {
-            return;
-        }
+
+    void level(Node root) {
+        if (root == null) return;
+        Queue<Node> q = new LinkedList<>();
         q.add(root);
-        while(!q.isEmpty())
-        {
-            node curr=q.poll();
-            System.out.print(curr.data+" ");
-            if(curr.left!=null)
-            {
-                q.add(curr.left);
-            }
-            if(curr.right!=null)
-            {
-                q.add(curr.right);
-            }
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            System.out.print(curr.data + " ");
+            if (curr.left != null) q.add(curr.left);
+            if (curr.right != null) q.add(curr.right);
         }
-        
+    }
+
+    void swap(Node a, Node b) {
+        int temp = a.data;
+        a.data = b.data;
+        b.data = temp;
     }
 }
-class Main{
-    public static void main(String args[])
-    {
-        Scanner sc=new Scanner(System.in);
-        BT t=new BT();
-        t.root=t.create();
+
+public class BST1 {
+    public static void main(String args[]) {
+        BT t = new BT();
+        t.root = t.create();
         t.recoverBST(t.root);
         t.level(t.root);
     }
 }
+// import java.util.*;
+
+// class Node {
+//     int data;
+//     Node left, right;
+//     Node(int d) { data = d; }
+// }
+
+// class BT {
+//     Node root, prev, f, m, l;
+
+//     Node create() {
+//         Scanner sc = new Scanner(System.in);
+//         root = new Node(sc.nextInt());
+//         Queue<Node> q = new LinkedList<>();
+//         q.add(root);
+//         while (!q.isEmpty()) {
+//             Node curr = q.poll();
+//             for (int i = 0; i < 2; i++) {
+//                 int val = sc.nextInt();
+//                 if (val != -1) {
+//                     Node newNode = new Node(val);
+//                     if (i == 0) curr.left = newNode;
+//                     else curr.right = newNode;
+//                     q.add(newNode);
+//                 }
+//             }
+//         }
+//         return root;
+//     }
+
+//     void recoverBST(Node root) {
+//         if (root == null) return;
+//         inorder(root);
+//         if (f != null) swap(f, (l != null) ? l : m);
+//     }
+
+//     void inorder(Node root) {
+//         if (root == null) return;
+//         inorder(root.left);
+//         if (prev != null && prev.data > root.data) {
+//             if (f == null) f = prev; else l = root;
+//             if (f != null && m == null) m = root;
+//         }
+//         prev = root;
+//         inorder(root.right);
+//     }
+
+//     void level(Node root) {
+//         if (root == null) return;
+//         Queue<Node> q = new LinkedList<>();
+//         q.add(root);
+//         while (!q.isEmpty()) {
+//             Node curr = q.poll();
+//             System.out.print(curr.data + " ");
+//             if (curr.left != null) q.add(curr.left);
+//             if (curr.right != null) q.add(curr.right);
+//         }
+//     }
+
+//     void swap(Node a, Node b) {
+//         int temp = a.data;
+//         a.data = b.data;
+//         b.data = temp;
+//     }
+// }
+
+// public class Main {
+//     public static void main(String args[]) {
+//         BT t = new BT();
+//         t.root = t.create();
+//         t.recoverBST(t.root);
+//         t.level(t.root);
+//     }
+// }
+
