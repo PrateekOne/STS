@@ -3,7 +3,7 @@ import java.util.*;
 class Node {
     int data;
     Node left, right;
-    Node(int d) { data = d; }
+    Node(int s) { data = s; }
 }
 
 class BT {
@@ -30,7 +30,6 @@ class BT {
     }
 
     void recoverBST(Node root) {
-        if (root == null) return;
         inorder(root);
         if (f != null) swap(f, (l != null) ? l : m);
     }
@@ -46,24 +45,13 @@ class BT {
         inorder(root.right);
     }
 
-    void level(Node root) {
-        if (root == null) return;
-        Queue<Node> q = new LinkedList<>();
-        q.add(root);
-        while (!q.isEmpty()) {
-            Node curr = q.poll();
-            System.out.print(curr.data + " ");
-            if (curr.left != null) q.add(curr.left);
-            if (curr.right != null) q.add(curr.right);
-        }
-    }
-
     void swap(Node a, Node b) {
         int temp = a.data;
         a.data = b.data;
         b.data = temp;
     }
 }
+
 
 public class BST1 {
     public static void main(String args[]) {
