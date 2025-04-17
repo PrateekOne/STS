@@ -10,20 +10,20 @@ class node{
 }
 class BST{
     node root=null;
-    node create(node root,int d)
+    node create(node root,int s)
     {
         if(root==null)
         {
-            root=new node(d);
+            root=new node(s);
             return root;
         }
-        else if(d<=root.data)
+        else if(s<=root.data)
         {
-            root.left=create(root.left,d);
+            root.left=create(root.left,s);
         }
-        else if(d>root.data)
+        else if(s>root.data)
         {
-            root.right=create(root.right,d);
+            root.right=create(root.right,s);
         }
         return root;
     }
