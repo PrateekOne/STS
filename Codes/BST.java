@@ -2,9 +2,9 @@ import java.util.*;
 class node{
     int data;
     node left,right;
-    node(int d)
+    node(int s)
     {
-        data=d;
+        data=s;
         left=right=null;
     }
 }
